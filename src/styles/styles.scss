@@ -1,0 +1,18 @@
+$theme-colors: (
+  "primary":    #a015e8,
+  "secondary":  #de77e9,
+  "success":    #0ec178,
+  "info":       #f6bef6,
+  "warning":    #e6d40b,
+  "danger":     #f92d04,
+  "light":      #fad4d0,
+  "dark":       #2d0686
+);
+
+@import url('https://fonts.googleapis.com/css2?family=Akshar:wght@500&display=swap');
+
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+
+
+
+
