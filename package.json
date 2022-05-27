@@ -11,11 +11,9 @@
     "@popperjs/core": "^2.11.5",
     "axios": "^0.27.2",
     "bootstrap": "5.2.0-beta1",
-    "chart.js": "^3.8.0",
     "dayjs": "^1.11.2",
     "sass": "^1.52.1",
     "vue": "^3.2.25",
-    "vue-chartjs": "^4.1.0",
     "vue-google-charts": "^1.0.0",
     "vue-router": "4"
   },

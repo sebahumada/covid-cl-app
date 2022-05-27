@@ -1,7 +1,7 @@
 <template>
     <template v-if="isLoaded">
     <GChart
-        type="SteppedAreaChart"
+        type="AreaChart"
         :data="chartData"
         :options="chartOptions"
     /> 
