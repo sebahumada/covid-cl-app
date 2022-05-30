@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CovidResumen, UpdatedAt } from "../interfaces";
+import { CovidNacional, CovidResumen, UpdatedAt } from "../interfaces";
 import { FechaValor } from './../interfaces/index';
 
 
@@ -56,6 +56,14 @@ export const getArray = (entrada:FechaValor[]) =>{
 }
 
 
+
+export const getActivosNacional = async():Promise<CovidNacional> => {
+   const {data} = await axios.get<CovidNacional>("https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataActivosNacional.json");
+
+   return data;
+}
+
+
 export const getPromSemanal = (entrada:FechaValor[]) =>{
 
   let semana=1;
@@ -81,8 +89,10 @@ export const getPromSemanal = (entrada:FechaValor[]) =>{
 
   
   
-
-  salida.push(['Semana '+semana, suma]);
+  
+  if(acumulador>1) {
+    salida.push(['Semana '+semana, suma]);
+  }
 
   return salida;
 

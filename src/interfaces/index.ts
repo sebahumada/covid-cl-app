@@ -18,3 +18,11 @@ export interface UpdatedAt {
     ProcessDate: string;
 }
 
+
+
+
+export interface CovidNacional {
+    UpdatedAt: string;
+    Lista:     FechaValor[];
+}
+

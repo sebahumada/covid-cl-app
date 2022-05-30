@@ -71,14 +71,12 @@
 
         </div>
 
-        <!-- <h3>Casos Activos</h3>
-        <GraficoCasos :registros="casosActivos" color="#e6d40b" />
-        <h3>Casos Nuevos</h3>
-        <GraficoCasos :registros="casosNuevos" color="#f92d04" />
-        <h3>Fallecidos</h3>
-        <GraficoCasos :registros="fallecidos" color="#a015e8" /> -->
-        <h3>Casos Activos</h3>
+       
+        <h3>Casos Activos (Informe Diario)</h3>
         <Graficov2 :registros="casosActivos" color="#e6d40b" />
+
+        <h3>Casos Activos (Informe Epidemiológico)</h3>
+        <Graficov2 :registros="casosActivosInfEpid" color="#e6d40b" />
 
         <h3>Casos Nuevos (7 días)</h3>
         <Graficov2 :registros="casosNuevos" color="#f92d04" :prom="true" />
@@ -86,8 +84,8 @@
         <h3>Fallecidos (7 días)</h3>
         <Graficov2 :registros="fallecidos" color="#a015e8" :prom="true" />
         
-
-        
+        <br/>
+        <p>Datos obtenidos gracias a <a href="https://minciencia.gob.cl/covid19/" target="_blank">Base de Datos COVID-19 - Ministerio de Ciencia, Tecnología, Conocimiento e Innovación</a></p>
 
     </template>
 
@@ -96,8 +94,8 @@
 
 <script lang="ts" setup>
 import { onBeforeMount, ref } from 'vue';
-import { getPromSemanal, getResumen } from '../../../api/querys';
-import { CovidResumen, FechaValor } from '../../../interfaces';
+import { getActivosNacional, getPromSemanal, getResumen } from '../../../api/querys';
+import { CovidNacional, CovidResumen, FechaValor } from '../../../interfaces';
 
 import dayjs from 'dayjs';
 import Graficov2 from './Graficov2.vue';
@@ -108,16 +106,19 @@ import Graficov2 from './Graficov2.vue';
 const resumen = ref<CovidResumen>({UpdatedAt: '', Data: []});
 const isLoaded = ref<boolean>(false);
 const casosActivos = ref<FechaValor[]>([]);
+const casosActivosInfEpid = ref<FechaValor[]>([]);
 const casosNuevos = ref<FechaValor[]>([]);
 const fallecidos = ref<FechaValor[]>([]);
-
+const activosNacional = ref<CovidNacional>();
 
 
 onBeforeMount(async ()=>{
     isLoaded.value = false;
     resumen.value = await getResumen();
+    activosNacional.value = await getActivosNacional();
 
     casosActivos.value = resumen.value.Data[3].Cantidad;
+    casosActivosInfEpid.value = activosNacional.value.Lista; 
     casosNuevos.value = resumen.value.Data[4].Cantidad;
     fallecidos.value = resumen.value.Data[1].Cantidad;
     
