@@ -91,7 +91,7 @@ export const getPromSemanal = (entrada:FechaValor[]) =>{
   
   
   if(acumulador>1) {
-    salida.push(['Semana '+semana, suma]);
+    salida.push(['Semana '+semana+'(en curso)', suma]);
   }
 
   return salida;

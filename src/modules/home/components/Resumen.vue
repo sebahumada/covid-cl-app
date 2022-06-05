@@ -94,7 +94,7 @@
 
 <script lang="ts" setup>
 import { onBeforeMount, ref } from 'vue';
-import { getActivosNacional, getPromSemanal, getResumen } from '../../../api/querys';
+import { getActivosNacional, getResumen } from '../../../api/querys';
 import { CovidNacional, CovidResumen, FechaValor } from '../../../interfaces';
 
 import dayjs from 'dayjs';
