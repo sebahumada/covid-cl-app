@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import HomeView from './modules/home/views/HomeView.vue';
+import { onBeforeMount } from 'vue';
+import { reloadStore } from './store/storesHelper';
+
+onBeforeMount(async()=>{
+  await reloadStore();
+})
+
+
+
 
 </script>
 
 <template>
-  <HomeView></HomeView>
+  <router-view></router-view>
 </template>
 
 <style>

@@ -6,15 +6,12 @@
     </template>
     <template v-else>
 
-        <h1><span class="badge bg-dark">Covid en Chile</span></h1>
-        <hr />
-        <h4>Actualizado al: <span class="badge bg-success">{{ dayjs(`${resumen.UpdatedAt}`).format('DD-MM-YYYY') }}</span></h4>
 
-        <hr />
-
+       
+        <h5>Resumen (Informe Diario)</h5>
         <div class="row align-items-start align-content-center">
 
-            <div class="col-sm">
+            <div class="col-sm"  title="Datos de Informe Diario">
                 <div class="card text-white bg-danger mb-3">
                     <div class="card-header">
                         Casos Nuevos
@@ -27,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="col-sm">
+            <div class="col-sm"  title="Datos de Informe Diario">
                 <div class="card text-dark bg-warning mb-3">
                     <div class="card-header">
                         Casos Activos
@@ -40,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="col-sm">
+            <div class="col-sm"  title="Datos de Informe Diario">
                 <div class="card text-white bg-primary mb-3">
                     <div class="card-header">
                         Fallecidos Totales
@@ -53,8 +50,8 @@
                 </div>
             </div>
 
-            <div class="col-sm">
-                <div class="card text-white bg-success mb-3">
+            <div class="col-sm"  title="Datos de Informe Diario">
+                <div class="card text-white bg-success mb-3"  title="Datos de Informe Diario">
                     <div class="card-header">
                         Casos Totales
                     </div>
@@ -72,20 +69,19 @@
         </div>
 
        
-        <h3>Casos Activos (Informe Diario)</h3>
+        <h5>Casos Activos (Informe Diario)</h5>
         <Graficov2 :registros="casosActivos" color="#e6d40b" />
 
-        <h3>Casos Activos (Informe Epidemiológico)</h3>
+        <h5>Casos Activos (Informe Epidemiológico)</h5>
         <Graficov2 :registros="casosActivosInfEpid" color="#e6d40b" />
 
-        <h3>Casos Nuevos (7 días)</h3>
+        <h5>Casos Nuevos (7 días)</h5>
         <Graficov2 :registros="casosNuevos" color="#f92d04" :prom="true" />
 
-        <h3>Fallecidos (7 días)</h3>
+        <h5>Fallecidos (7 días)</h5>
         <Graficov2 :registros="fallecidos" color="#a015e8" :prom="true" />
         
-        <br/>
-        <p>Datos obtenidos gracias a <a href="https://minciencia.gob.cl/covid19/" target="_blank">Base de Datos COVID-19 - Ministerio de Ciencia, Tecnología, Conocimiento e Innovación</a></p>
+        
 
     </template>
 
@@ -94,43 +90,61 @@
 
 <script lang="ts" setup>
 import { onBeforeMount, ref } from 'vue';
-import { getActivosNacional, getResumen } from '../../../api/querys';
 import { CovidNacional, CovidResumen, FechaValor } from '../../../interfaces';
 
-import dayjs from 'dayjs';
+
 import Graficov2 from './Graficov2.vue';
+import { useActivosNacionalStore } from '../../../store/activosNacionalStore';
+import { useResumenStore } from '../../../store/resumenStore';
+import { reloadStore } from '../../../store/storesHelper';
 
 
 
+const isLoaded = ref<boolean>(false);
 
 const resumen = ref<CovidResumen>({UpdatedAt: '', Data: []});
-const isLoaded = ref<boolean>(false);
+const activosNacional=ref<CovidNacional>({UpdatedAt:'', Lista:[]});
+
 const casosActivos = ref<FechaValor[]>([]);
 const casosActivosInfEpid = ref<FechaValor[]>([]);
 const casosNuevos = ref<FechaValor[]>([]);
 const fallecidos = ref<FechaValor[]>([]);
-const activosNacional = ref<CovidNacional>();
+
+const resumenHome = useResumenStore();
+const activosNacionalStore = useActivosNacionalStore();
+
+
 
 
 onBeforeMount(async ()=>{
-    isLoaded.value = false;
-    resumen.value = await getResumen();
-    activosNacional.value = await getActivosNacional();
+    
+    
+    isLoaded.value = false;   
+    await reloadStore();
 
-    casosActivos.value = resumen.value.Data[3].Cantidad;
+
+    resumen.value = resumenHome.resumen;
+    
+
+    activosNacional.value = activosNacionalStore.activosNacional;
     casosActivosInfEpid.value = activosNacional.value.Lista; 
-    casosNuevos.value = resumen.value.Data[4].Cantidad;
-    fallecidos.value = resumen.value.Data[1].Cantidad;
+    
+        fallecidos.value = resumenHome.resumen.Data[1].Cantidad;
+        casosActivos.value = resumenHome.resumen.Data[3].Cantidad;
+        casosNuevos.value = resumenHome.resumen.Data[4].Cantidad;
+
+    
+
     
     isLoaded.value = true;
 
-})
 
+    
 
-
-
+});
 
 
 
 
 </script>
+
