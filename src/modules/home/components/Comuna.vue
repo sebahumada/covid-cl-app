@@ -1,17 +1,28 @@
 <template>
     <template v-if="isLoaded">
-        <div class="card">
-            <h5 class="card-header bg-light">Comuna: {{ datosComunaSeleccionada?.Comuna}}</h5>
-            <div class="card-body">
+
+        <h5>Datos Informe Epidemiológico: <span class="badge bg-dark">{{ updateAt }}</span></h5>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="card">
+             <h5 class="card-header bg-light">Comuna: {{ datosComunaSeleccionada?.Comuna}}</h5>
+                <div class="card-body">
                 <h5 class="card-title">Región: {{ datosComunaSeleccionada?.Region }}</h5>
                 <p class="card-text">Población: {{ FormatNumber(datosComunaSeleccionada?.Poblacion!)}} hab.</p>
                 
             </div>
         </div>
-        <hr />
-        <div class="row align-items-start align-content-center">
+            </div>
 
-            <div class="col-sm"  title="Datos de Informe Diario">
+
+        </div>
+
+        
+        <hr />
+        <div class="row">
+
+            <div class="col-sm-4"  title="Datos de Informe Diario">
                 <div class="card text-dark bg-warning mb-3">
                     <div class="card-header">
                         Casos Activos
@@ -19,6 +30,32 @@
                     <div class="card-body">
                         <p class="card-text">
                             {{ FormatNumber(casosActivos)}} {{ diferenciaActivos(casosActivosAnt)}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4"  title="Datos de Informe Diario">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">
+                        Fallecidos Totales
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            (s/i)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4"  title="Datos de Informe Diario">
+                <div class="card text-white bg-success mb-3"  title="Datos de Informe Diario">
+                    <div class="card-header">
+                        Casos Totales
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            (s/i)
                         </p>
                     </div>
                 </div>
@@ -40,7 +77,7 @@ import { useComunasStore } from '../../../store/comunasStore';
 import { useActivosComunasStore } from '../../../store/activosComunasStore';
 import { onBeforeMount, ref } from 'vue';
 import { Comunas, Lista } from '../../../interfaces';
-import { FormatNumber } from '../../../helpers/index';
+import { FormatNumber, FormatFecha, diferenciaActivos } from '../../../helpers/index';
 import GraficoComuna from './GraficoComuna.vue';
 
 const props = defineProps<{    
@@ -60,6 +97,7 @@ const datosActivosComunaSeleccionada = ref<Lista>();
 
 const casosActivos = ref<number>(0);
 const casosActivosAnt = ref<number>(0);
+const updateAt = ref('');
 
 onBeforeMount(async () => {
     isLoaded.value = false;
@@ -68,23 +106,14 @@ onBeforeMount(async () => {
     datosActivosComunaSeleccionada.value = activosComunasStore.activosComunas.Lista.find(comuna => comuna.C === props.id)
     casosActivos.value = datosActivosComunaSeleccionada.value?.D[datosActivosComunaSeleccionada.value?.D.length-1].V!
     casosActivosAnt.value = casosActivos.value - datosActivosComunaSeleccionada.value?.D[datosActivosComunaSeleccionada.value?.D.length-2].V!
+    updateAt.value = FormatFecha(activosComunasStore.activosComunas.UpdatedAt);
+    
     isLoaded.value = true;
 
 })
 
 
-const diferenciaActivos = (num:number):string =>{
 
-    if(num>0){
-        return `(+${FormatNumber(num)} casos)`;
-    } else if(num<0) {
-        return `(${FormatNumber(num)} casos)`;
-    } else {
-        return '(sin diferencia de casos)'
-    }
-
-    
-}
 
 
 </script>

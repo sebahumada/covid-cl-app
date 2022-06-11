@@ -2,15 +2,20 @@ import { defineStore } from 'pinia';
 
 
 export const useComRegStore = defineStore({
-    id: 'comReg',
+    id: 'ComReg',
 
     state:()=>({
-        selectedId:''
+        comunaId:'',
+        regionId:''
+        
     }),
 
     actions:{
-        setSelectedId(id:string){
-            this.selectedId = id;
+        setComunaId(id:string){
+            this.comunaId = id;
+        },
+        setRegionId(id:string){
+            this.regionId = id;
         }
     }
 })

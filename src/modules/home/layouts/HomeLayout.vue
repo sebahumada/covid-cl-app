@@ -13,13 +13,12 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <!-- <h5 class="modal-title" id="exampleModalLabel">Búsqueda:</h5> -->
-                    <input type="text" class="form-control me-2" v-model="busquedaComunaRegion" @keyup="buscarComunaRegion" @click="buscarComunaRegion" placeholder="Buscar Comuna o Región" />
+                    
+                    <input type="text" class="form-control me-2" v-model="busquedaComunaRegion" placeholder="Buscar Comuna o Región" />
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- <p>Buscar Región o Comuna</p>  -->
-                    <!-- <input type="text" class="form-control" v-model="busquedaComunaRegion" @keyup="buscarComunaRegion" placeholder="Buscar Comuna o Región" /> -->
+                    
                     
                     <template v-if="comunasQuery.length>0">
                         <p><strong>Comuna:</strong></p>
@@ -61,24 +60,11 @@
                         </li>
                        
                     </ul>
-                        <button type="button" class="ms-2 btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="reset">Buscar Comuna o Región...</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="reset">Buscar Comuna o Región...</button>
                     </div>
                 </div>
             </nav>
-
-
-
-
-
-
             
-            
-            
-            <div class="alert alert-white h6" role="alert">
-                Datos al: 
-                <span class="badge bg-primary text-white">{{ dayjs(`${resumen.UpdatedAt}`).format('DD-MM-YYYY') }} (Diario)</span>
-                <span class="ms-2 badge bg-primary text-white">{{ dayjs(`${activosNacional?.UpdatedAt}`).format('DD-MM-YYYY') }} (Informe Epidem.)</span>
-            </div>
 
             
             <hr class="text-white"/>
@@ -98,8 +84,8 @@
 
 <script lang="ts" setup>
 
-import dayjs from 'dayjs';
-import { onBeforeMount, ref } from 'vue';
+
+import { onBeforeMount, ref, watch } from 'vue';
 import { Comunas, CovidNacional, CovidResumen, Region } from '../../../interfaces';
 import { useComunasStore } from '../../../store/comunasStore';
 import { useRegionStore } from '../../../store/regionesStore';
@@ -157,26 +143,30 @@ const buscarComunaRegion = ()=>{
 }
 
 const handleComuna = async(id:string)=>{
-    console.log('Id Comuna =>',id);
-    close();
-    idComReg.setSelectedId(id);
+    close();        
+    idComReg.setComunaId(id);
     await router.push({ name: 'comuna' });
     
 }
 
 const handleRegion =async(id:string)=>{
-    console.log('Id Region =>',id);
-    close();
-    idComReg.setSelectedId(id);
+    close();    
+    idComReg.setRegionId(id);
     await router.push({ name: 'region' });
 }
 
 
 const close = ()=>{
-let closeCanvas = document.querySelector('[data-bs-dismiss="modal"]') as HTMLButtonElement;
+    let closeCanvas = document.querySelector('[data-bs-dismiss="modal"]') as HTMLButtonElement;
     closeCanvas.click();   
     
 }
+
+watch(async()=>busquedaComunaRegion.value,
+        async()=>{           
+            
+            buscarComunaRegion();
+        })
 
 
 

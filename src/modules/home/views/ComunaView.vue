@@ -13,15 +13,15 @@ const idSelected = ref('');
 onBeforeMount(async()=>{
     isLoaded.value = false;
     
-    idSelected.value = id.selectedId;
-
+    idSelected.value = id.comunaId;
+    console.log(idSelected.value);
     isLoaded.value = true;
 });
 
-watch(async()=> id.selectedId,
+watch(async()=> id.comunaId,
     async(val)=>{
         isLoaded.value = false;
-    
+        
         idSelected.value =await val;
 
         isLoaded.value = true;

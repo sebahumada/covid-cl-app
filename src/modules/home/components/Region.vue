@@ -1,17 +1,26 @@
 <template>
     <template v-if="isLoaded">
-        <div class="card">
-            <h5 class="card-header bg-light">Región: {{ datosRegionSeleccionada?.Nombre}}</h5>
-            <div class="card-body">
-                
-                <p class="card-text">Población: {{ FormatNumber(datosActivosRegionSeleccionada?.Poblacion!)}} hab.</p>
-                
-            </div>
-        </div>
-        <hr />
-        <div class="row align-items-start align-content-center">
 
-            <div class="col-sm"  title="Datos de Informe Diario">
+
+        <h5>Datos Informe Epidemiológico: <span class="badge bg-dark">{{ updateAt }}</span></h5>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="card">
+                    <h5 class="card-header bg-light">Región: {{ datosRegionSeleccionada?.Nombre}}</h5>
+                    <div class="card-body">                
+                        <p class="card-text">Población: {{ FormatNumber(datosActivosRegionSeleccionada?.Poblacion!)}} hab.</p>                
+                    </div>
+                </div>
+            </div>            
+
+        </div>       
+
+
+        <hr />
+        
+        <div class="row">
+            <div class="col-sm-4"  title="Datos de Informe Diario">
                 <div class="card text-dark bg-warning mb-3">
                     <div class="card-header">
                         Casos Activos
@@ -23,6 +32,34 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-sm-4"  title="Datos de Informe Diario">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">
+                        Fallecidos Totales
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            (s/i)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4"  title="Datos de Informe Diario">
+                <div class="card text-white bg-success mb-3"  title="Datos de Informe Diario">
+                    <div class="card-header">
+                        Casos Totales
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            (s/i)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            
 
         </div>
 
@@ -39,7 +76,7 @@
 
 import { onBeforeMount, ref } from 'vue';
 import { ListaRegion, Region } from '../../../interfaces';
-import { FormatNumber } from '../../../helpers/index';
+import { FormatNumber, FormatFecha, diferenciaActivos } from '../../../helpers/index';
 import GraficoRegion from './GraficoRegion.vue';
 import { useRegionStore } from '../../../store/regionesStore';
 import { useActivosRegionesStore } from '../../../store/activosRegionesStore';
@@ -60,13 +97,15 @@ const datosActivosRegionSeleccionada = ref<ListaRegion>();
 const casosActivos = ref<number>(0);
 const casosActivosAnt = ref<number>(0);
 
+const updateAt = ref('');
+
 onBeforeMount(async () => {
     isLoaded.value = false;
 
     
     datosRegionSeleccionada.value = listaRegionesStore.regiones.find(region=>region.CodRegion === props.id);
 
-
+    updateAt.value = FormatFecha(activosRegionesStore.activosRegiones.UpdatedAt);
     
     datosActivosRegionSeleccionada.value = activosRegionesStore.activosRegiones.Lista.find(region=>region.CodRegion === props.id);
 
@@ -75,20 +114,6 @@ onBeforeMount(async () => {
     isLoaded.value = true;
 
 })
-
-
-const diferenciaActivos = (num:number):string =>{
-
-    if(num>0){
-        return `(+${FormatNumber(num)} casos)`;
-    } else if(num<0) {
-        return `(${FormatNumber(num)} casos)`;
-    } else {
-        return '(sin diferencia de casos)'
-    }
-
-    
-}
 
 
 </script>
