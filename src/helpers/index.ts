@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+import { DataActivosComuna,  ActivosComuna} from './../interfaces/index';
+import { Lista, D } from '../interfaces/index';
+
 
 
 export const FormatNumber = (num:number):string =>{
@@ -20,4 +23,55 @@ export const diferenciaActivos = (num:number):string =>{
     } else {
         return '(sin diferencia de casos)'
     }    
+}
+
+
+export const transformData = (entrada:DataActivosComuna):ActivosComuna =>{
+
+    const salida:ActivosComuna = { UpdatedAt: entrada.UpdatedAt, Lista: []};
+
+
+
+
+    entrada.Lista.forEach(x=>{
+
+        let comuna:Lista={C:'',D:[]};
+
+        comuna.C = x.C;
+
+        let datosComuna:D[]=[];
+
+        for(let i=0;i<entrada.Fechas.length;i++){
+
+            let fecha = entrada.Fechas[i];
+            let valor = x.D[i];
+
+
+
+            let datoComuna:D = { F: fecha, V: valor}
+            datosComuna.push(datoComuna);
+        }
+
+
+        comuna.D = datosComuna;
+
+        salida.Lista.push(comuna);
+
+
+    });
+
+
+
+    return salida;
+
+    
+
+
+
+    
+
+
+    
+
+
 }

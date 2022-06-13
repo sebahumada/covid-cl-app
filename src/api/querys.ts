@@ -1,4 +1,5 @@
 import axios from "axios";
+import { transformData } from "../helpers";
 import {
   ActivosComuna,
   ActivosRegion,
@@ -6,6 +7,7 @@ import {
   CovidNacional,
   CovidResumen,
   D,
+  DataActivosComuna,
   Region,
   UpdatedAt,
 } from "../interfaces";
@@ -28,12 +30,21 @@ export const getComunas = async (): Promise<Comunas[]> => {
 };
 
 export const getActivosComunas = async (): Promise<ActivosComuna> => {
-  const { data } = await axios.get<ActivosComuna>(
+  const { data } = await axios.get<DataActivosComuna>(
     "https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataActivosComuna.json"
   );
 
-  return data;
+  const tranformar = transformData(data);
+
+  return tranformar;
 };
+// export const getActivosComunas = async (): Promise<ActivosComuna> => {
+//   const { data } = await axios.get<ActivosComuna>(
+//     "https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataActivosComuna.json"
+//   );
+
+//   return data;
+// };
 
 export const getActivosRegiones = async():Promise<ActivosRegion>=>{
   const {data} = await axios.get<ActivosRegion>("https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataActivosRegion.json");

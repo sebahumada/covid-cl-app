@@ -93,5 +93,18 @@ export interface DataRegion {
 }
 
 
+export interface DataActivosComuna {
+    UpdatedAt: string;
+    Fechas:    string[];
+    Lista:     ListaActivosComuna[];
+}
+
+export interface ListaActivosComuna {
+    C: string;
+    D: number[];
+}
+
+
+
 
 
