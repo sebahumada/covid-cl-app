@@ -131,11 +131,11 @@ const reset = ()=>{
 
 }
 
-const buscarComunaRegion = ()=>{
+const buscarComunaRegion = (valor:string)=>{
 
-    if(busquedaComunaRegion.value.length>=3){
-        comunasQuery.value = comunas.comunas.filter(c=>c.Comuna.toLowerCase().includes(busquedaComunaRegion.value.toLowerCase()) && c.CodComuna.length>0)
-        regionesQuery.value = regiones.regiones.filter(r=>r.Nombre.toLowerCase().includes(busquedaComunaRegion.value.toLowerCase()))
+    if(valor.length>=3){
+        comunasQuery.value = comunas.comunas.filter(c=>c.Comuna.toLowerCase().includes(valor.toLowerCase()) && c.CodComuna.length>0)
+        regionesQuery.value = regiones.regiones.filter(r=>r.Nombre.toLowerCase().includes(valor.toLowerCase()))
     } else {
         comunasQuery.value = [];
         regionesQuery.value = [];
@@ -162,10 +162,11 @@ const close = ()=>{
     
 }
 
-watch(async()=>busquedaComunaRegion.value,
-        async()=>{           
+watch(()=>busquedaComunaRegion.value,
+        (val)=>{           
+            //console.log({val, prev});
             
-            buscarComunaRegion();
+            buscarComunaRegion(val);
         })
 
 
