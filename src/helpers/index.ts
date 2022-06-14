@@ -9,6 +9,14 @@ export const FormatNumber = (num:number):string =>{
     return Intl.NumberFormat('es-CL').format(num);
 }
 
+export const FormatDecimal = (num:number, decimales:number=2):string =>{
+    const numeroDecimales = Number(num.toFixed(decimales));
+
+
+    return Intl.NumberFormat('es-CL').format(numeroDecimales);
+}
+
+
 export const FormatFecha = (fecha:string):string => {
 
     return dayjs(`${fecha}`).format('DD-MM-YYYY');

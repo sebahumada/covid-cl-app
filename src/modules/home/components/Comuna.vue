@@ -31,6 +31,9 @@
                         <p class="card-text">
                             {{ FormatNumber(casosActivos)}} {{ diferenciaActivos(casosActivosAnt)}}
                         </p>
+                        <p class="card-text">
+                            {{ FormatDecimal(tasa,1) }} casos cada 100.000 hab.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -77,7 +80,7 @@ import { useComunasStore } from '../../../store/comunasStore';
 import { useActivosComunasStore } from '../../../store/activosComunasStore';
 import { onBeforeMount, ref } from 'vue';
 import { Comunas, Lista } from '../../../interfaces';
-import { FormatNumber, FormatFecha, diferenciaActivos } from '../../../helpers/index';
+import { FormatNumber, FormatFecha, diferenciaActivos, FormatDecimal } from '../../../helpers/index';
 import GraficoComuna from './GraficoComuna.vue';
 
 const props = defineProps<{    
@@ -99,6 +102,8 @@ const casosActivos = ref<number>(0);
 const casosActivosAnt = ref<number>(0);
 const updateAt = ref('');
 
+const tasa = ref(0);
+
 onBeforeMount(async () => {
     isLoaded.value = false;
 
@@ -108,6 +113,7 @@ onBeforeMount(async () => {
     casosActivosAnt.value = casosActivos.value - datosActivosComunaSeleccionada.value?.D[datosActivosComunaSeleccionada.value?.D.length-2].V!
     updateAt.value = FormatFecha(activosComunasStore.activosComunas.UpdatedAt);
     
+    tasa.value = (100000*casosActivos.value)/datosComunaSeleccionada.value?.Poblacion!;
     isLoaded.value = true;
 
 })

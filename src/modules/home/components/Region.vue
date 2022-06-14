@@ -29,6 +29,9 @@
                         <p class="card-text">
                             {{ FormatNumber(casosActivos)}} {{ diferenciaActivos(casosActivosAnt)}}
                         </p>
+                        <p class="card-text">
+                            {{ FormatDecimal(tasa,1) }} casos cada 100.000 hab.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -76,7 +79,7 @@
 
 import { onBeforeMount, ref } from 'vue';
 import { ListaRegion, Region } from '../../../interfaces';
-import { FormatNumber, FormatFecha, diferenciaActivos } from '../../../helpers/index';
+import { FormatNumber, FormatFecha, diferenciaActivos, FormatDecimal } from '../../../helpers/index';
 import GraficoRegion from './GraficoRegion.vue';
 import { useRegionStore } from '../../../store/regionesStore';
 import { useActivosRegionesStore } from '../../../store/activosRegionesStore';
@@ -99,6 +102,8 @@ const casosActivosAnt = ref<number>(0);
 
 const updateAt = ref('');
 
+const tasa = ref(0);
+
 onBeforeMount(async () => {
     isLoaded.value = false;
 
@@ -111,6 +116,8 @@ onBeforeMount(async () => {
 
     casosActivos.value = datosActivosRegionSeleccionada.value?.Data[datosActivosRegionSeleccionada.value?.Data.length-1].Valor!;
     casosActivosAnt.value = casosActivos.value - datosActivosRegionSeleccionada.value?.Data[datosActivosRegionSeleccionada.value?.Data.length-2].Valor!;
+    tasa.value = (100000*casosActivos.value)/datosActivosRegionSeleccionada.value?.Poblacion!;
+    
     isLoaded.value = true;
 
 })

@@ -103,6 +103,15 @@ export const getPromSemanal = (entrada: FechaValor[]) => {
   let acumulador = 1;
   let suma = 0;
 
+  const cantidadSemanas = Number((entrada.length / 7).toFixed(0));
+
+  const quitar = entrada.length - cantidadSemanas*7;
+  console.log(entrada.length);
+  console.log({cantidadSemanas, quitar});
+  
+  entrada.splice(0, quitar);
+  console.log(entrada.length);
+
   let salida: [[any, any]] = [["Fecha", "Valor"]];
   for (let i = 0; i < entrada.length; i++) {
     suma = suma + entrada[i].Valor;
@@ -127,6 +136,15 @@ export const getPromSemanalComunas = (entrada: D[]) => {
   let semana = 1;
   let acumulador = 1;
   let suma = 0;
+
+  const cantidadSemanas = Number((entrada.length / 7).toFixed(0));
+
+  const quitar = entrada.length - cantidadSemanas*7;
+  console.log(entrada.length);
+  console.log({cantidadSemanas, quitar});
+  
+  entrada.splice(0, quitar);
+  console.log(entrada.length);
 
   let salida: [[any, any]] = [["Fecha", "Valor"]];
   for (let i = 0; i < entrada.length; i++) {
