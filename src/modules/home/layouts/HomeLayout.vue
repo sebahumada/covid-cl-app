@@ -56,11 +56,14 @@
                     <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                        <a class="nav-link" href="#" @click="()=>{ router.push({name:'home'})}">Resumen</a>
+                        <a class="nav-link" href="#"  @click="()=>{ router.push({name:'home'})}">Resumen</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="reset">Buscar Comuna o Región</a>
                         </li>
                        
                     </ul>
-                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="reset">Buscar Comuna o Región...</button>
+                        <!-- <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="reset">Buscar Comuna o Región...</button> -->
                     </div>
                 </div>
             </nav>
@@ -174,7 +177,7 @@ watch(()=>busquedaComunaRegion.value,
 </script>
 
 <style scoped>
-.link-click {
+.link-click, .nav-link {
     cursor: pointer;
 }
 
