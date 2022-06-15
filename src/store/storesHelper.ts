@@ -44,7 +44,15 @@ export const reloadStore = async () => {
     await totalComunas.getTotalComunas();
   }
 
+  if(totalComunas.totalFallecidosComuna.Lista.length === 0){
+    await totalComunas.getTotalFallecidosComuna();
+  }
+
   if(totalRegiones.totalRegiones.Lista.length === 0){
     await totalRegiones.getTotalRegiones();
+  }
+
+  if(totalRegiones.totalFallecidosRegiones.Lista.length === 0){
+    await totalRegiones.getTotalesFallecidosRegion();
   }
 };

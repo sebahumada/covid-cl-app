@@ -118,6 +118,29 @@ export const getActivosNacional = async (): Promise<CovidNacional> => {
   return data;
 };
 
+
+export const getTotalesFallecidosRegion = async():Promise<TotalRegion> => {
+
+  const { data } = await axios.get<TotalRegion>(
+    "https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataTotalesFallecidosRegion.json"
+  );
+
+  return data;
+}
+
+export const getTotalesFallecidosComuna = async():Promise<TotalComuna> => {
+
+  const { data } = await axios.get<TotalComuna>(
+    "https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataTotalesFallecidosComuna.json"
+  );
+
+  return data;
+}
+
+
+
+
+
 export const getPromSemanal = (entrada: FechaValor[]) => {
   let semana = 1;
   let acumulador = 1;

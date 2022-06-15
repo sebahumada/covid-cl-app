@@ -43,7 +43,7 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            (s/i)
+                            {{ FormatNumber(totalFallecidosRegionSeleccionada?.Total!)}} 
                         </p>
                     </div>
                 </div>
@@ -102,6 +102,7 @@ const totalRegionesStore = useTotalRegionesStore();
 
 const datosRegionSeleccionada = ref<Region>();
 const totalRegionSeleccionada = ref<ListaTotalRegion>();
+const totalFallecidosRegionSeleccionada = ref<ListaTotalRegion>();
 const datosActivosRegionSeleccionada = ref<ListaRegion>();
 const casosActivos = ref<number>(0);
 const casosActivosAnt = ref<number>(0);
@@ -124,7 +125,7 @@ onBeforeMount(async () => {
     casosActivosAnt.value = casosActivos.value - datosActivosRegionSeleccionada.value?.Data[datosActivosRegionSeleccionada.value?.Data.length-2].Valor!;
     tasa.value = (100000*casosActivos.value)/datosActivosRegionSeleccionada.value?.Poblacion!;
     totalRegionSeleccionada.value = totalRegionesStore.totalRegiones.Lista.find(region=>region.Region === props.id);
-
+    totalFallecidosRegionSeleccionada.value = totalRegionesStore.totalFallecidosRegiones.Lista.find(region=>region.Region === props.id);
     isLoaded.value = true;
 
 })

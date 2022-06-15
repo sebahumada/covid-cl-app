@@ -45,7 +45,7 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            (s/i)
+                            {{ FormatNumber(totalFallecidosComunaSeleccionada?.Total!)}} 
                         </p>
                     </div>
                 </div>
@@ -100,6 +100,8 @@ const activosComunasStore = useActivosComunasStore();
 const totalesComunasStore = useTotalComunasStore();
 
 const totalComunaSeleccionada = ref<ListaTotalComuna>();
+const totalFallecidosComunaSeleccionada = ref<ListaTotalComuna>();
+
 const datosComunaSeleccionada = ref<Comunas>();
 const datosActivosComunaSeleccionada = ref<Lista>();
 
@@ -120,6 +122,8 @@ onBeforeMount(async () => {
     casosActivosAnt.value = casosActivos.value - datosActivosComunaSeleccionada.value?.D[datosActivosComunaSeleccionada.value?.D.length-2].V!
     updateAt.value = FormatFecha(activosComunasStore.activosComunas.UpdatedAt);
     totalComunaSeleccionada.value = totalesComunasStore.totalComunas.Lista.find(comuna => comuna.Comuna === props.id);
+    totalFallecidosComunaSeleccionada.value = totalesComunasStore.totalFallecidosComuna.Lista.find(comuna => comuna.Comuna === props.id);
+
     tasa.value = (100000*casosActivos.value)/datosComunaSeleccionada.value?.Poblacion!;
     isLoaded.value = true;
 
