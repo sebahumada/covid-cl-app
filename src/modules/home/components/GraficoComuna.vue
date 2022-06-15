@@ -6,7 +6,9 @@
         :options="chartOptions"
     /> 
     </template>
-    <template v-else>Espere...</template>
+    <template v-else><div class="spinner-border text-dark" role="status">
+            <span class="visually-hidden">Espere...</span>
+        </div></template>
 </template>
 
 

@@ -3,7 +3,9 @@
     
 
     <template v-if="!isLoaded">
-        Espere...
+        <div class="spinner-border text-dark" role="status">
+            <span class="visually-hidden">Espere...</span>
+        </div>
     </template>
     <template v-else>
 
@@ -63,7 +65,7 @@
                         </li>
                        
                     </ul>
-                        <!-- <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="reset">Buscar Comuna o Región...</button> -->
+                        
                     </div>
                 </div>
             </nav>
@@ -89,11 +91,9 @@
 
 
 import { onBeforeMount, ref, watch } from 'vue';
-import { Comunas, CovidNacional, CovidResumen, Region } from '../../../interfaces';
+import { Comunas, Region } from '../../../interfaces';
 import { useComunasStore } from '../../../store/comunasStore';
 import { useRegionStore } from '../../../store/regionesStore';
-import { useResumenStore } from '../../../store/resumenStore';
-import { useActivosNacionalStore } from '../../../store/activosNacionalStore';
 import { reloadStore } from '../../../store/storesHelper';
 import { useComRegStore } from '../../../store/comRegStore';
 import { useRouter } from 'vue-router';
@@ -104,11 +104,8 @@ const isLoaded = ref<boolean>(false);
 const comunasQuery = ref<Comunas[]>([]);
 const regionesQuery = ref<Region[]>([]);
 const busquedaComunaRegion = ref<string>('');
-const resumen = ref<CovidResumen>({UpdatedAt: '', Data: []});
-const activosNacional=ref<CovidNacional>({UpdatedAt:'', Lista:[]});
 
-const resumenHome = useResumenStore();
-const activosNacionalStore = useActivosNacionalStore();
+
 const regiones = useRegionStore();
 const comunas = useComunasStore();
 const idComReg=useComRegStore();
@@ -120,8 +117,7 @@ onBeforeMount(async ()=>{
     isLoaded.value = false;
     
     await reloadStore();
-    resumen.value = resumenHome.resumen;
-    activosNacional.value = activosNacionalStore.activosNacional;
+    
 
     isLoaded.value = true;
 

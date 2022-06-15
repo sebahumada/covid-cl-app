@@ -36,7 +36,9 @@ watch(async()=> id.regionId,
     <template v-if="isLoaded">
         <Region :id="idSelected"/>
     </template>
-    <template>
-        Espere...
+    <template v-else>
+        <div class="spinner-border text-dark" role="status">
+            <span class="visually-hidden">Espere...</span>
+        </div>
     </template>
 </template>

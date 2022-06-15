@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { DataActivosComuna,  ActivosComuna} from './../interfaces/index';
-import { Lista, D } from '../interfaces/index';
+import { ListaTotalComuna, D } from '../interfaces/index';
 
 
 
@@ -43,7 +43,7 @@ export const transformData = (entrada:DataActivosComuna):ActivosComuna =>{
 
     entrada.Lista.forEach(x=>{
 
-        let comuna:Lista={C:'',D:[]};
+        let comuna:ListaTotalComuna={C:'',D:[]};
 
         comuna.C = x.C;
 

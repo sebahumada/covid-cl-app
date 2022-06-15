@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onBeforeMount } from 'vue';
-import { reloadStore } from './store/storesHelper';
+// import { onBeforeMount } from 'vue';
+// import { reloadStore } from './store/storesHelper';
 
-onBeforeMount(async()=>{
-  await reloadStore();
-})
+// onBeforeMount(async()=>{
+//   await reloadStore();
+// })
 
 
 

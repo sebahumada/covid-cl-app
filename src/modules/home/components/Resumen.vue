@@ -2,7 +2,9 @@
     
 
     <template v-if="!isLoaded">
-        Espere...
+        <div class="spinner-border text-dark" role="status">
+            <span class="visually-hidden">Espere...</span>
+        </div>
     </template>
     <template v-else>
 
@@ -13,7 +15,7 @@
 
             <div class="col-sm"  title="Datos de Informe Diario">
                 <div class="card text-white bg-danger mb-3">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Casos Nuevos
                     </div>
                     <div class="card-body">
@@ -26,7 +28,7 @@
 
             <div class="col-sm"  title="Datos de Informe Diario">
                 <div class="card text-dark bg-warning mb-3">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Casos Activos
                     </div>
                     <div class="card-body">
@@ -39,7 +41,7 @@
 
             <div class="col-sm"  title="Datos de Informe Diario">
                 <div class="card text-white bg-primary mb-3">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Fallecidos Totales
                     </div>
                     <div class="card-body">
@@ -52,7 +54,7 @@
 
             <div class="col-sm"  title="Datos de Informe Diario">
                 <div class="card text-white bg-success mb-3"  title="Datos de Informe Diario">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Casos Totales
                     </div>
                     <div class="card-body">

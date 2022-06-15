@@ -24,7 +24,7 @@
 
             <div class="col-sm-4"  title="Datos de Informe Diario">
                 <div class="card text-dark bg-warning mb-3">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Casos Activos
                     </div>
                     <div class="card-body">
@@ -40,7 +40,7 @@
 
             <div class="col-sm-4"  title="Datos de Informe Diario">
                 <div class="card text-white bg-primary mb-3">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Fallecidos Totales
                     </div>
                     <div class="card-body">
@@ -53,12 +53,12 @@
 
             <div class="col-sm-4"  title="Datos de Informe Diario">
                 <div class="card text-white bg-success mb-3"  title="Datos de Informe Diario">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Casos Totales
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            (s/i)
+                            {{ FormatNumber(totalComunaSeleccionada?.Total!)}} 
                         </p>
                     </div>
                 </div>
@@ -70,7 +70,9 @@
         <GraficoComuna :registros="datosActivosComunaSeleccionada!.D" color="#e6d40b" />
     </template>
     <template v-else>
-        Espere...
+        <div class="spinner-border text-dark" role="status">
+            <span class="visually-hidden">Espere...</span>
+        </div>
     </template>
 </template>
 
@@ -79,9 +81,10 @@
 import { useComunasStore } from '../../../store/comunasStore';
 import { useActivosComunasStore } from '../../../store/activosComunasStore';
 import { onBeforeMount, ref } from 'vue';
-import { Comunas, Lista } from '../../../interfaces';
+import { Comunas, Lista, ListaTotalComuna } from '../../../interfaces';
 import { FormatNumber, FormatFecha, diferenciaActivos, FormatDecimal } from '../../../helpers/index';
 import GraficoComuna from './GraficoComuna.vue';
+import { useTotalComunasStore } from '../../../store/totalComunasStore';
 
 const props = defineProps<{    
     id: string    
@@ -94,13 +97,17 @@ const isLoaded = ref(false);
 
 const listaComunasStore = useComunasStore();
 const activosComunasStore = useActivosComunasStore();
+const totalesComunasStore = useTotalComunasStore();
 
+const totalComunaSeleccionada = ref<ListaTotalComuna>();
 const datosComunaSeleccionada = ref<Comunas>();
 const datosActivosComunaSeleccionada = ref<Lista>();
 
 const casosActivos = ref<number>(0);
 const casosActivosAnt = ref<number>(0);
 const updateAt = ref('');
+
+
 
 const tasa = ref(0);
 
@@ -112,7 +119,7 @@ onBeforeMount(async () => {
     casosActivos.value = datosActivosComunaSeleccionada.value?.D[datosActivosComunaSeleccionada.value?.D.length-1].V!
     casosActivosAnt.value = casosActivos.value - datosActivosComunaSeleccionada.value?.D[datosActivosComunaSeleccionada.value?.D.length-2].V!
     updateAt.value = FormatFecha(activosComunasStore.activosComunas.UpdatedAt);
-    
+    totalComunaSeleccionada.value = totalesComunasStore.totalComunas.Lista.find(comuna => comuna.Comuna === props.id);
     tasa.value = (100000*casosActivos.value)/datosComunaSeleccionada.value?.Poblacion!;
     isLoaded.value = true;
 

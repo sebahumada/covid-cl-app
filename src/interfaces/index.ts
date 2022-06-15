@@ -104,6 +104,29 @@ export interface ListaActivosComuna {
     D: number[];
 }
 
+export interface TotalComuna {
+    UpdatedAt: string;
+    Lista:     ListaTotalComuna[];
+}
+
+export interface ListaTotalComuna {
+    Comuna: string;
+    Total:  number;
+}
+
+export interface TotalRegion {
+    UpdatedAt: string;
+    Lista:     ListaTotalRegion[];
+}
+
+export interface ListaTotalRegion {
+    Region: string;
+    Total:  number;
+}
+
+
+
+
 
 
 

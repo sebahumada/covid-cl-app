@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-sm-4"  title="Datos de Informe Diario">
                 <div class="card text-dark bg-warning mb-3">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Casos Activos
                     </div>
                     <div class="card-body">
@@ -38,7 +38,7 @@
 
             <div class="col-sm-4"  title="Datos de Informe Diario">
                 <div class="card text-white bg-primary mb-3">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Fallecidos Totales
                     </div>
                     <div class="card-body">
@@ -51,12 +51,12 @@
 
             <div class="col-sm-4"  title="Datos de Informe Diario">
                 <div class="card text-white bg-success mb-3"  title="Datos de Informe Diario">
-                    <div class="card-header">
+                    <div class="card-header h5">
                         Casos Totales
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            (s/i)
+                            {{ FormatNumber(totalRegionSeleccionada?.Total!)}} 
                         </p>
                     </div>
                 </div>
@@ -70,7 +70,9 @@
         <GraficoRegion :registros="datosActivosRegionSeleccionada!.Data" color="#e6d40b" />
     </template>
     <template v-else>
-        Espere...
+        <div class="spinner-border text-dark" role="status">
+            <span class="visually-hidden">Espere...</span>
+        </div>
     </template>
 </template>
 
@@ -78,11 +80,12 @@
 
 
 import { onBeforeMount, ref } from 'vue';
-import { ListaRegion, Region } from '../../../interfaces';
+import { ListaRegion, ListaTotalRegion, Region } from '../../../interfaces';
 import { FormatNumber, FormatFecha, diferenciaActivos, FormatDecimal } from '../../../helpers/index';
 import GraficoRegion from './GraficoRegion.vue';
 import { useRegionStore } from '../../../store/regionesStore';
 import { useActivosRegionesStore } from '../../../store/activosRegionesStore';
+import { useTotalRegionesStore } from '../../../store/totalRegionesStore';
 
 const props = defineProps<{    
     id: string    
@@ -95,7 +98,10 @@ const isLoaded = ref(false);
 
 const listaRegionesStore = useRegionStore();
 const activosRegionesStore = useActivosRegionesStore();
+const totalRegionesStore = useTotalRegionesStore();
+
 const datosRegionSeleccionada = ref<Region>();
+const totalRegionSeleccionada = ref<ListaTotalRegion>();
 const datosActivosRegionSeleccionada = ref<ListaRegion>();
 const casosActivos = ref<number>(0);
 const casosActivosAnt = ref<number>(0);
@@ -105,8 +111,8 @@ const updateAt = ref('');
 const tasa = ref(0);
 
 onBeforeMount(async () => {
-    isLoaded.value = false;
-
+    isLoaded.value = false;   
+    
     
     datosRegionSeleccionada.value = listaRegionesStore.regiones.find(region=>region.CodRegion === props.id);
 
@@ -117,7 +123,8 @@ onBeforeMount(async () => {
     casosActivos.value = datosActivosRegionSeleccionada.value?.Data[datosActivosRegionSeleccionada.value?.Data.length-1].Valor!;
     casosActivosAnt.value = casosActivos.value - datosActivosRegionSeleccionada.value?.Data[datosActivosRegionSeleccionada.value?.Data.length-2].Valor!;
     tasa.value = (100000*casosActivos.value)/datosActivosRegionSeleccionada.value?.Poblacion!;
-    
+    totalRegionSeleccionada.value = totalRegionesStore.totalRegiones.Lista.find(region=>region.Region === props.id);
+
     isLoaded.value = true;
 
 })

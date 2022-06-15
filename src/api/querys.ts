@@ -9,6 +9,8 @@ import {
   D,
   DataActivosComuna,
   Region,
+  TotalComuna,
+  TotalRegion,
   UpdatedAt,
 } from "../interfaces";
 import { FechaValor } from "./../interfaces/index";
@@ -81,6 +83,24 @@ export const getArrayComunas = (entrada: D[]) => {
 
   return salida;
 };
+
+export const getTotalComunas = async():Promise<TotalComuna>=>{
+
+  const { data } = await axios.get<TotalComuna>(
+    "https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataTotalesComuna.json"
+  );
+
+  return data;
+}
+
+export const getTotalRegiones = async():Promise<TotalRegion>=>{
+
+  const { data } = await axios.get<TotalRegion>(
+    "https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataTotalesRegion.json"
+  );
+
+  return data;
+}
 
 export const getResumenHome = async (): Promise<CovidResumen> => {
   const { data } = await axios.get<CovidResumen>(

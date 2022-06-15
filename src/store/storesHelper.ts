@@ -4,6 +4,8 @@ import { useRegionStore } from "./regionesStore";
 import { useResumenStore } from "./resumenStore";
 import { useActivosComunasStore } from "./activosComunasStore";
 import { useActivosRegionesStore } from "./activosRegionesStore";
+import { useTotalComunasStore } from "./totalComunasStore";
+import { useTotalRegionesStore } from './totalRegionesStore';
 
 export const reloadStore = async () => {
   const activosNacional = useActivosNacionalStore();
@@ -12,6 +14,8 @@ export const reloadStore = async () => {
   const resumenHome = useResumenStore();
   const activosComunas = useActivosComunasStore();
   const activosRegiones = useActivosRegionesStore();
+  const totalComunas = useTotalComunasStore();
+  const totalRegiones = useTotalRegionesStore();
 
   if (activosNacional.activosNacional.Lista.length === 0) {
     await activosNacional.getActivosNacional();
@@ -34,5 +38,13 @@ export const reloadStore = async () => {
 
   if(activosRegiones.activosRegiones.Lista.length === 0){
     await activosRegiones.getActivosRegiones();
+  }
+
+  if(totalComunas.totalComunas.Lista.length === 0){
+    await totalComunas.getTotalComunas();
+  }
+
+  if(totalRegiones.totalRegiones.Lista.length === 0){
+    await totalRegiones.getTotalRegiones();
   }
 };
