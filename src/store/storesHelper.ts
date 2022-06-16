@@ -7,11 +7,10 @@ import { useActivosRegionesStore } from "./activosRegionesStore";
 import { useTotalComunasStore } from "./totalComunasStore";
 import { useTotalRegionesStore } from './totalRegionesStore';
 
-export const reloadStore = async () => {
+
+
+export const reloadComunaRegionStore = async()=>{
   const activosNacional = useActivosNacionalStore();
-  const regiones = useRegionStore();
-  const comunas = useComunasStore();
-  const resumenHome = useResumenStore();
   const activosComunas = useActivosComunasStore();
   const activosRegiones = useActivosRegionesStore();
   const totalComunas = useTotalComunasStore();
@@ -19,17 +18,6 @@ export const reloadStore = async () => {
 
   if (activosNacional.activosNacional.Lista.length === 0) {
     await activosNacional.getActivosNacional();
-  }
-
-  if (resumenHome.resumen.Data.length === 0) {
-    await resumenHome.getResumenHome();
-  }
-  if (regiones.regiones.length === 0) {
-    await regiones.getRegiones();
-  }
-
-  if (comunas.comunas.length === 0) {
-    await comunas.getComunas();
   }
 
   if(activosComunas.activosComunas.Lista.length === 0){
@@ -55,4 +43,27 @@ export const reloadStore = async () => {
   if(totalRegiones.totalFallecidosRegiones.Lista.length === 0){
     await totalRegiones.getTotalesFallecidosRegion();
   }
+
+
+}
+
+
+
+export const reloadStore = async () => {
+  const regiones = useRegionStore();
+  const comunas = useComunasStore();
+  const resumenHome = useResumenStore();
+ 
+
+  if (resumenHome.resumen.Data.length === 0) {
+    await resumenHome.getResumenHome();
+  }
+  if (regiones.regiones.length === 0) {
+    await regiones.getRegiones();
+  }
+
+  if (comunas.comunas.length === 0) {
+    await comunas.getComunas();
+  }
+  
 };

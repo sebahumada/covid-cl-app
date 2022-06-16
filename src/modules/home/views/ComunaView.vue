@@ -4,6 +4,7 @@
 import { onBeforeMount, ref, watch } from 'vue';
 import { useComRegStore } from '../../../store/comRegStore';
 import Comuna from '../components/Comuna.vue';
+import { reloadComunaRegionStore } from '../../../store/storesHelper';
 
 const id = useComRegStore();
 const isLoaded = ref(false);
@@ -13,8 +14,9 @@ const idSelected = ref('');
 onBeforeMount(async()=>{
     isLoaded.value = false;
     
+    await reloadComunaRegionStore();
     idSelected.value = id.comunaId;
-    console.log(idSelected.value);
+    
     isLoaded.value = true;
 });
 
