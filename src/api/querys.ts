@@ -142,18 +142,17 @@ export const getTotalesFallecidosComuna = async():Promise<TotalComuna> => {
 
 
 export const getPromSemanal = (entrada: FechaValor[]) => {
-  let semana = 1;
+  
   let acumulador = 1;
   let suma = 0;
 
   const cantidadSemanas = Number((entrada.length / 7).toFixed(0));
 
   const quitar = entrada.length - cantidadSemanas*7;
-  console.log(entrada.length);
-  console.log({cantidadSemanas, quitar});
+  
   
   entrada.splice(0, quitar);
-  console.log(entrada.length);
+  
 
   let salida: [[any, any]] = [["Fecha", "Valor"]];
   for (let i = 0; i < entrada.length; i++) {
@@ -161,33 +160,32 @@ export const getPromSemanal = (entrada: FechaValor[]) => {
     acumulador = acumulador + 1;
 
     if (acumulador === 8) {
-      salida.push(["Semana " + semana, suma]);
+      salida.push([entrada[i].Fecha, suma]);
       suma = 0;
-      semana = semana + 1;
+      
       acumulador = 1;
     }
   }
 
   if (acumulador > 1) {
-    salida.push(["Semana " + semana + " (en curso)", suma]);
+    salida.push([entrada[entrada.length-1].Fecha, suma]);
   }
 
   return salida;
 };
 
 export const getPromSemanalComunas = (entrada: D[]) => {
-  let semana = 1;
+  
   let acumulador = 1;
   let suma = 0;
 
   const cantidadSemanas = Number((entrada.length / 7).toFixed(0));
 
   const quitar = entrada.length - cantidadSemanas*7;
-  console.log(entrada.length);
-  console.log({cantidadSemanas, quitar});
+  
   
   entrada.splice(0, quitar);
-  console.log(entrada.length);
+  
 
   let salida: [[any, any]] = [["Fecha", "Valor"]];
   for (let i = 0; i < entrada.length; i++) {
@@ -195,15 +193,14 @@ export const getPromSemanalComunas = (entrada: D[]) => {
     acumulador = acumulador + 1;
 
     if (acumulador === 8) {
-      salida.push(["Semana " + semana, suma]);
-      suma = 0;
-      semana = semana + 1;
+      salida.push([entrada[i].F, suma]);
+      suma = 0;      
       acumulador = 1;
     }
   }
 
   if (acumulador > 1) {
-    salida.push(["Semana " + semana + " (en curso)", suma]);
+    salida.push([entrada[entrada.length-1].F, suma]);
   }
 
   return salida;
