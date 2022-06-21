@@ -9,6 +9,6 @@
 <style>
 #app {
 
-  font-family: 'Akshar', sans-serif;
+  font-family: 'Fira Sans', sans-serif;
 }
 </style>
