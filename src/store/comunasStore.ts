@@ -17,6 +17,10 @@ export const useComunasStore = defineStore({
     actions:{
         async getComunas(){
             this.comunas = await getComunas();
+        },
+        async getComunasByRegion(region:string){    
+            const listado = this.comunas.filter(reg => reg.CodRegion === region);
+            return listado;
         }
     }
 

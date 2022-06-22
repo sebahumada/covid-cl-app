@@ -8,8 +8,9 @@
                 <div class="card">
              <h5 class="card-header bg-light">Comuna: {{ datosComunaSeleccionada?.Comuna}}</h5>
                 <div class="card-body">
-                <h5 class="card-title">Región: {{ datosComunaSeleccionada?.Region }}</h5>
+                <h5 class="card-title">Región: <span class="link-click" @click="handleRegion(datosComunaSeleccionada?.CodRegion!)">{{ datosComunaSeleccionada?.Region }}</span></h5>
                 <p class="card-text">Población: {{ FormatNumber(datosComunaSeleccionada?.Poblacion!)}} hab.</p>
+                
                 
             </div>
         </div>
@@ -85,6 +86,8 @@ import { Comunas, Lista, ListaTotalComuna } from '../../../interfaces';
 import { FormatNumber, FormatFecha, diferenciaActivos, FormatDecimal } from '../../../helpers/index';
 import GraficoComuna from './GraficoComuna.vue';
 import { useTotalComunasStore } from '../../../store/totalComunasStore';
+import { useComRegStore } from '../../../store/comRegStore';
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{    
     id: string    
@@ -92,13 +95,13 @@ const props = defineProps<{
 
 
 
-
+const router = useRouter();
 const isLoaded = ref(false);
 
 const listaComunasStore = useComunasStore();
 const activosComunasStore = useActivosComunasStore();
 const totalesComunasStore = useTotalComunasStore();
-
+const idComReg=useComRegStore();
 const totalComunaSeleccionada = ref<ListaTotalComuna>();
 const totalFallecidosComunaSeleccionada = ref<ListaTotalComuna>();
 
@@ -130,7 +133,24 @@ onBeforeMount(async () => {
 })
 
 
+const handleRegion = async(codRegion:string) =>{
+    idComReg.setRegionId(codRegion);
+    await router.push({ name: 'region' });
+}
+
 
 
 
 </script>
+
+<style scoped>
+.link-click {
+    cursor: pointer;
+}
+
+
+.link-click:hover{
+    color: blueviolet;
+}
+
+</style>
