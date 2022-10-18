@@ -65,6 +65,19 @@
                 </div>
             </div>
 
+            <div class="col-sm"  title="Datos de Informe Diario">
+                <div class="card text-white bg-dark mb-3"  title="Datos de Informe Diario">
+                    <div class="card-header h5">
+                        Positividad Día
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{ positividad.Lista[positividad.Lista.length-1].Valor }} %
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             
 
 
@@ -76,6 +89,9 @@
 
         <h5>Casos Nuevos (7 días)</h5>
         <Graficov2 :registros="casosNuevos" color="#f92d04" :prom="true" />
+
+        <h5>Positividad (%)</h5>
+        <Graficov2 :registros="positividad.Lista" color="#2d0686" :prom="false" />
 
         <h5>Fallecidos (7 días)</h5>
         <Graficov2 :registros="fallecidos" color="#a015e8" :prom="true" />
@@ -89,7 +105,7 @@
 
 <script lang="ts" setup>
 import { onBeforeMount, ref } from 'vue';
-import { CovidResumen, FechaValor } from '../../../interfaces';
+import { CovidResumen, FechaValor, Positividad } from '../../../interfaces';
 
 
 import Graficov2 from './Graficov2.vue';
@@ -97,6 +113,7 @@ import { useResumenStore } from '../../../store/resumenStore';
 import { reloadStore } from '../../../store/storesHelper';
 import { FormatFecha } from '../../../helpers';
 import { FormatNumber } from '../../../helpers/index';
+import { usePositividadNacionalStore } from '../../../store/positividadNacionalStore';
 
 
 
@@ -107,6 +124,8 @@ const resumen = ref<CovidResumen>({UpdatedAt: '', Data: []});
 const casosActivos = ref<FechaValor[]>([]);const casosNuevos = ref<FechaValor[]>([]);
 const fallecidos = ref<FechaValor[]>([]);
 const updateAt = ref('');
+const positividadStore = usePositividadNacionalStore();
+const positividad = ref<Positividad>({ UpdatedAt: '', Lista: []});
 
 
 
@@ -123,7 +142,7 @@ onBeforeMount(async ()=>{
     
     updateAt.value = FormatFecha(resumen.value.UpdatedAt);
 
-    
+    positividad.value = positividadStore.positividad;
     
     fallecidos.value = resumenHome.resumen.Data[1].Cantidad;
     casosActivos.value = resumenHome.resumen.Data[3].Cantidad;

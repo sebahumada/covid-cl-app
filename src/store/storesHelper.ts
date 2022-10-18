@@ -6,6 +6,8 @@ import { useActivosComunasStore } from "./activosComunasStore";
 import { useActivosRegionesStore } from "./activosRegionesStore";
 import { useTotalComunasStore } from "./totalComunasStore";
 import { useTotalRegionesStore } from './totalRegionesStore';
+import { usePositividadNacionalStore } from "./positividadNacionalStore";
+
 
 
 
@@ -15,6 +17,7 @@ export const reloadComunaRegionStore = async()=>{
   const activosRegiones = useActivosRegionesStore();
   const totalComunas = useTotalComunasStore();
   const totalRegiones = useTotalRegionesStore();
+  
 
   if (activosNacional.activosNacional.Lista.length === 0) {
     await activosNacional.getActivosNacional();
@@ -45,6 +48,7 @@ export const reloadComunaRegionStore = async()=>{
   }
 
 
+
 }
 
 
@@ -53,7 +57,7 @@ export const reloadStore = async () => {
   const regiones = useRegionStore();
   const comunas = useComunasStore();
   const resumenHome = useResumenStore();
- 
+  const positividad = usePositividadNacionalStore();
 
   if (resumenHome.resumen.Data.length === 0) {
     await resumenHome.getResumenHome();
@@ -64,6 +68,11 @@ export const reloadStore = async () => {
 
   if (comunas.comunas.length === 0) {
     await comunas.getComunas();
+  }
+
+  
+  if(positividad.positividad.Lista.length === 0){
+    await positividad.getPositividadNacional();
   }
   
 };

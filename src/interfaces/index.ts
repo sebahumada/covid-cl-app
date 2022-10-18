@@ -74,6 +74,11 @@ export interface D {
     V: number;
 }
 
+export interface Positividad {
+    UpdatedAt: string;
+    Lista:     FechaValor[];
+}
+
 
 
 export interface ActivosRegion {

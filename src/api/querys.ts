@@ -8,6 +8,7 @@ import {
   CovidResumen,
   D,
   DataActivosComuna,
+  Positividad,
   Region,
   TotalComuna,
   TotalRegion,
@@ -133,6 +134,11 @@ export const getTotalesFallecidosComuna = async():Promise<TotalComuna> => {
   const { data } = await axios.get<TotalComuna>(
     "https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataTotalesFallecidosComuna.json"
   );
+
+  return data;
+}
+export const getPositividadNacional = async(): Promise<Positividad> =>{
+  const { data } = await axios.get<Positividad>("https://raw.githubusercontent.com/sebahumada/covid-data/main/Output/dataPositividadNacionalDiaria.json");
 
   return data;
 }
